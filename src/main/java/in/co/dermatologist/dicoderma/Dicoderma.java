@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.ImageWriteException;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.ImageMetadata;
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
@@ -17,10 +18,7 @@ import org.apache.commons.imaging.formats.tiff.write.TiffOutputDirectory;
 import com.google.gson.Gson;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.BufferedOutputStream;
+import java.io.*;
 
 @Getter
 @Setter
@@ -54,7 +52,11 @@ public class Dicoderma {
         return gson.toJson(dicomSCModel);
     }
 
-    public byte[] putDicodermaMetadataAsString(BufferedImage bufferedImage, String model){
+    public BufferedImage putDicodermaMetadata(BufferedImage bufferedImage, DicomSCModel dicomSCModel) throws ImageWriteException, ImageReadException, IOException {
+        return putDicodermaMetadataAsString(bufferedImage, getDicodermaMetadataAsString(dicomSCModel));
+    }
+
+    public BufferedImage putDicodermaMetadataAsString(BufferedImage bufferedImage, String model) throws IOException, ImageReadException, ImageWriteException {
         byte[] imageBytes = bufferedImageToByteArray(bufferedImage);
         final ImageMetadata metadata = Imaging.getMetadata(imageBytes);
         TiffOutputSet outputSet = new TiffOutputSet();
@@ -78,7 +80,10 @@ public class Dicoderma {
             exifDirectory.add(ExifTagConstants.EXIF_TAG_USER_COMMENT, model);
             new ExifRewriter().updateExifMetadataLossless(imageBytes, os, outputSet);
         }
-        return bytesOut.toByteArray();
+        byte[] imageAsBytes = bytesOut.toByteArray();
+        ByteArrayInputStream bis = new ByteArrayInputStream(imageAsBytes);
+        BufferedImage bImage = ImageIO.read(bis);
+        return bImage;
     }
 
     private byte[] bufferedImageToByteArray(BufferedImage bufferedImage) {
