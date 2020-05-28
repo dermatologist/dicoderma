@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class DicomSCModel {
     private String PatientName; // "Simson^Homer"
-    private String PatientSex; // "M" OR "F"
+    private GenderEnum PatientSex; // "M" OR "F"
     private String PatientID;
     private String IssuerOfPatientID;
     private String TypeOfPatientID; // "RFID"
