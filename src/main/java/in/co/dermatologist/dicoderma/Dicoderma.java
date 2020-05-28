@@ -15,12 +15,12 @@ import java.io.IOException;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Dicoderm {
+public class Dicoderma {
 
     protected BufferedImage bufferedImage;
 
 
-    public void getDicodermMetadata(BufferedImage bufferedImage) throws IOException, ImageReadException {
+    public void getDicodermaMetadata(BufferedImage bufferedImage) throws IOException, ImageReadException {
         byte[] imageBytes = bufferedImageToByteArray(bufferedImage);
         final ImageMetadata metadata = Imaging.getMetadata(imageBytes);
     }
