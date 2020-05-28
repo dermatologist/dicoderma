@@ -6,5 +6,5 @@ module in.co.dermatologist.dicoderma {
     requires com.google.gson;
     requires dcm4che.tool.common;
     requires dcm4che.core;
-    requires dcm4che3.tool.jpg2dcm;
+    requires dcm4che.tool.jpg2dcm;
 }

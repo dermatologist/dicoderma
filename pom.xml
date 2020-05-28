@@ -17,7 +17,7 @@
     <!-- @STEP 1: Change to 13 -->
     <maven.compiler.source>13</maven.compiler.source>
     <maven.compiler.target>13</maven.compiler.target>
-    <dcm4che.version>5.22.1</dcm4che.version>
+    <dcm4che.version>5.22.0</dcm4che.version>
   </properties>
 
   <dependencies>
