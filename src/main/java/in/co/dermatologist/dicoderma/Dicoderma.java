@@ -6,7 +6,11 @@ import lombok.Setter;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.common.ImageMetadata;
+import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
+import org.apache.commons.imaging.formats.tiff.TiffField;
+import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
 
+import com.google.gson.Gson;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -19,10 +23,22 @@ public class Dicoderma {
 
     protected BufferedImage bufferedImage;
 
+    protected DicomSCModel model;
 
-    public void getDicodermaMetadata(BufferedImage bufferedImage) throws IOException, ImageReadException {
+    public String getDicodermaMetadata(BufferedImage bufferedImage) throws IOException, ImageReadException {
         byte[] imageBytes = bufferedImageToByteArray(bufferedImage);
         final ImageMetadata metadata = Imaging.getMetadata(imageBytes);
+        model = new DicomSCModel();
+        Gson gson = new Gson();
+        String jsonInString = gson.toJson(model);
+        if (metadata instanceof JpegImageMetadata) {
+            final JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
+            final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(ExifTagConstants.EXIF_TAG_USER_COMMENT);
+            String dicodermaMetadata = field.getValueDescription();
+            DicomSCModel readModel = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
+            jsonInString = gson.toJson(readModel);
+        }
+        return jsonInString;
     }
 
     private byte[] bufferedImageToByteArray(BufferedImage bufferedImage) {

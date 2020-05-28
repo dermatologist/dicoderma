@@ -3,4 +3,5 @@ module in.co.dermatologist.dicoderma {
     requires java.desktop;
     requires org.apache.commons.imaging;
     requires jackson.annotations;
+    requires com.google.gson;
 }
