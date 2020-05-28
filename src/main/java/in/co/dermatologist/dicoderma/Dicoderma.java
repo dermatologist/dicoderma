@@ -25,20 +25,27 @@ public class Dicoderma {
 
     protected DicomSCModel model;
 
-    public String getDicodermaMetadata(BufferedImage bufferedImage) throws IOException, ImageReadException {
+    protected Gson gson = new Gson();
+
+    public DicomSCModel getDicodermaMetadata(BufferedImage bufferedImage) throws IOException, ImageReadException {
         byte[] imageBytes = bufferedImageToByteArray(bufferedImage);
         final ImageMetadata metadata = Imaging.getMetadata(imageBytes);
         model = new DicomSCModel();
-        Gson gson = new Gson();
-        String jsonInString = gson.toJson(model);
+        gson = new Gson();
+        //String jsonInString = gson.toJson(model);
         if (metadata instanceof JpegImageMetadata) {
             final JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
             final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(ExifTagConstants.EXIF_TAG_USER_COMMENT);
             String dicodermaMetadata = field.getValueDescription();
             DicomSCModel readModel = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
-            jsonInString = gson.toJson(readModel);
+            //jsonInString = gson.toJson(readModel);
+            return readModel;
         }
-        return jsonInString;
+        return model;
+    }
+
+    public String getDicodermaMetadataAsString(DicomSCModel dicomSCModel){
+        return gson.toJson(dicomSCModel);
     }
 
     private byte[] bufferedImageToByteArray(BufferedImage bufferedImage) {
