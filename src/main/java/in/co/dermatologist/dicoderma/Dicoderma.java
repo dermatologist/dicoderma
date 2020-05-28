@@ -16,9 +16,13 @@ import org.apache.commons.imaging.formats.tiff.write.TiffOutputSet;
 import org.apache.commons.imaging.formats.tiff.write.TiffOutputDirectory;
 
 import com.google.gson.Gson;
+
+//import org.dcm4che3.tool.common.CLIUtils;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.jar.Attributes;
 
 @Getter
 @Setter
@@ -84,6 +88,13 @@ public class Dicoderma {
         ByteArrayInputStream bis = new ByteArrayInputStream(imageAsBytes);
         BufferedImage bImage = ImageIO.read(bis);
         return bImage;
+    }
+
+    public void getDcm(BufferedImage bufferedImage){
+       Attributes staticMetadata = new Attributes();
+        boolean photo = true;
+        String[] options = new String[0];
+//        CLIUtils.addAttributes(staticMetadata, options);
     }
 
     private byte[] bufferedImageToByteArray(BufferedImage bufferedImage) {
