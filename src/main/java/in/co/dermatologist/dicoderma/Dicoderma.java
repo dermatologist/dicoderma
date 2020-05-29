@@ -73,27 +73,12 @@ public class Dicoderma {
     public BufferedImage putDicodermaMetadataAsString(BufferedImage bufferedImage, String model) throws IOException, ImageReadException, ImageWriteException {
         byte[] imageBytes = bufferedImageToByteArray(bufferedImage);
         final ImageMetadata metadata = Imaging.getMetadata(imageBytes);
-        TiffOutputSet outputSet = new TiffOutputSet();
-
+        TiffOutputSet outputSet = getOutputSetFromMetadataAndModel(metadata, model);
         // https://stackoverflow.com/questions/10642864/bufferedinputstream-into-byte-to-be-send-over-a-socket-to-a-database
         ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
         byte[] bytes = bytesOut.toByteArray();
         BufferedOutputStream os = new BufferedOutputStream(bytesOut);
-
-        //OutputStream os = new BufferedOutputStream(fos);
-        if (metadata instanceof JpegImageMetadata) {
-            final JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
-            if(null != jpegMetadata){
-                final TiffImageMetadata tiffImageMetadata = jpegMetadata.getExif();
-                if(null != tiffImageMetadata)
-                    // Copy it if present
-                    outputSet = tiffImageMetadata.getOutputSet();
-            }
-            final TiffOutputDirectory exifDirectory = outputSet.getOrCreateExifDirectory();
-            exifDirectory.removeField(ExifTagConstants.EXIF_TAG_USER_COMMENT );
-            exifDirectory.add(ExifTagConstants.EXIF_TAG_USER_COMMENT, model);
-            new ExifRewriter().updateExifMetadataLossless(imageBytes, os, outputSet);
-        }
+        new ExifRewriter().updateExifMetadataLossless(imageBytes, os, outputSet);
         byte[] imageAsBytes = bytesOut.toByteArray();
         ByteArrayInputStream bis = new ByteArrayInputStream(imageAsBytes);
         BufferedImage bImage = ImageIO.read(bis);
@@ -117,18 +102,19 @@ public class Dicoderma {
         return outputSet;
     }
 
-    public void putDicormMetadataToFile(final File jpegImageFile, final File dst)
+    public void putDicormMetadataToFile(final File jpegImageFile, final File dst, String model)
             throws IOException, ImageReadException, ImageWriteException {
-
+        try (FileOutputStream fos = new FileOutputStream(dst);
+             OutputStream os = new BufferedOutputStream(fos)) {
+            // note that metadata might be null if no metadata is found.
+            final ImageMetadata metadata = Imaging.getMetadata(jpegImageFile);
+            TiffOutputSet outputSet = getOutputSetFromMetadataAndModel(metadata, model);
+            new ExifRewriter().updateExifMetadataLossless(jpegImageFile, os,
+                    outputSet);
+        }
 
     }
 
-//    public void getDcm(BufferedImage bufferedImage){
-//        boolean photo = true;
-//        String[] options = new String[0];
-//        Attributes staticMetadata = new Attributes();
-//        CLIUtils.addAttributes(staticMetadata, options);
-//    }
 
     private byte[] bufferedImageToByteArray(BufferedImage bufferedImage) {
         // https://mkyong.com/java/how-to-convert-bufferedimage-to-byte-in-java/
