@@ -35,9 +35,14 @@ public class Dicoderma {
 
     protected Gson gson = new Gson();
 
-    public DicomSCModel getDicodermaMetadata(BufferedImage bufferedImage) throws IOException, ImageReadException {
-        byte[] imageBytes = bufferedImageToByteArray(bufferedImage);
-        final ImageMetadata metadata = Imaging.getMetadata(imageBytes);
+    public DicomSCModel getDicodermMetadataFromFile(final File file) throws ImageReadException,
+            IOException {
+        // get all metadata stored in EXIF format (ie. from JPEG or TIFF).
+        final ImageMetadata metadata = Imaging.getMetadata(file);
+        return getModelFromMetadata(metadata);
+    }
+
+    private DicomSCModel getModelFromMetadata(ImageMetadata metadata){
         model = new DicomSCModel();
         gson = new Gson();
         //String jsonInString = gson.toJson(model);
@@ -50,6 +55,11 @@ public class Dicoderma {
             return readModel;
         }
         return model;
+    }
+    public DicomSCModel getDicodermaMetadata(BufferedImage bufferedImage) throws IOException, ImageReadException {
+        byte[] imageBytes = bufferedImageToByteArray(bufferedImage);
+        final ImageMetadata metadata = Imaging.getMetadata(imageBytes);
+        return getModelFromMetadata(metadata);
     }
 
     public String getDicodermaMetadataAsString(DicomSCModel dicomSCModel){
@@ -90,12 +100,35 @@ public class Dicoderma {
         return bImage;
     }
 
-    public void getDcm(BufferedImage bufferedImage){
-        boolean photo = true;
-        String[] options = new String[0];
-        Attributes staticMetadata = new Attributes();
-        CLIUtils.addAttributes(staticMetadata, options);
+    private TiffOutputSet getOutputSetFromMetadataAndModel(ImageMetadata metadata, String model) throws ImageWriteException {
+        TiffOutputSet outputSet = new TiffOutputSet();
+        if (metadata instanceof JpegImageMetadata) {
+            final JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
+            if(null != jpegMetadata){
+                final TiffImageMetadata tiffImageMetadata = jpegMetadata.getExif();
+                if(null != tiffImageMetadata)
+                    // Copy it if present
+                    outputSet = tiffImageMetadata.getOutputSet();
+            }
+            final TiffOutputDirectory exifDirectory = outputSet.getOrCreateExifDirectory();
+            exifDirectory.removeField(ExifTagConstants.EXIF_TAG_USER_COMMENT );
+            exifDirectory.add(ExifTagConstants.EXIF_TAG_USER_COMMENT, model);
+        }
+        return outputSet;
     }
+
+    public void putDicormMetadataToFile(final File jpegImageFile, final File dst)
+            throws IOException, ImageReadException, ImageWriteException {
+
+
+    }
+
+//    public void getDcm(BufferedImage bufferedImage){
+//        boolean photo = true;
+//        String[] options = new String[0];
+//        Attributes staticMetadata = new Attributes();
+//        CLIUtils.addAttributes(staticMetadata, options);
+//    }
 
     private byte[] bufferedImageToByteArray(BufferedImage bufferedImage) {
         // https://mkyong.com/java/how-to-convert-bufferedimage-to-byte-in-java/
