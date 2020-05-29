@@ -43,7 +43,9 @@ package in.co.dermatologist.dicoderma;
 @changes: by @beapen
 * Change all private properties and methods to protect
 * Remove @SuppressWarnings("unchecked") final List<String> argList = cl.getArgList();
-* Delete public static void main(String[] args) {
+* Delete public static void main(String[] args)
+* Delete  protected static CommandLine parseComandLine
+* Delete protected static void createStaticMetadata
 * change package name
 
  */
@@ -106,57 +108,30 @@ public class Jpg2Dcm {
         this.photo = photo;
     }
 
-    protected static CommandLine parseComandLine(String[] args) throws ParseException {
-        Options opts = new Options();
-        CLIUtils.addCommonOptions(opts);
-        opts.addOption(Option.builder("m")
-                .hasArgs()
-                .argName("[seq/]attr=value")
-                .valueSeparator()
-                .desc(rb.getString("metadata"))
-                .build());
-        opts.addOption(Option.builder("f")
-                .hasArg()
-                .argName("xml-file")
-                .desc(rb.getString("file"))
-                .build());
-        opts.addOption(Option.builder()
-                .longOpt("xc")
-                .hasArg(false)
-                .desc(rb.getString("xc"))
-                .build());
-        opts.addOption(Option.builder()
-                .longOpt("no-app")
-                .hasArg(false)
-                .desc(rb.getString("no-app"))
-                .build());
-        return CLIUtils.parseComandLine(args, opts, rb, Jpg2Dcm.class);
-    }
+//    protected static void createStaticMetadata(CommandLine cl, Attributes staticMetadata) throws Exception {
+//        if (cl.hasOption("f"))
+//            SAXReader.parse(cl.getOptionValue("f"), staticMetadata);
+//
+//        CLIUtils.addAttributes(staticMetadata, cl.getOptionValues("m"));
+//        supplementMissingUIDs(staticMetadata);
+//        supplementMissingValue(staticMetadata, Tag.SeriesNumber, "999");
+//        supplementMissingValue(staticMetadata, Tag.InstanceNumber, "1");
+//        supplementType2Tags(staticMetadata);
+//    }
 
-    protected static void createStaticMetadata(CommandLine cl, Attributes staticMetadata) throws Exception {
-        if (cl.hasOption("f"))
-            SAXReader.parse(cl.getOptionValue("f"), staticMetadata);
-
-        CLIUtils.addAttributes(staticMetadata, cl.getOptionValues("m"));
-        supplementMissingUIDs(staticMetadata);
-        supplementMissingValue(staticMetadata, Tag.SeriesNumber, "999");
-        supplementMissingValue(staticMetadata, Tag.InstanceNumber, "1");
-        supplementType2Tags(staticMetadata);
-    }
-
-    protected void convert(List<String> args) throws Exception {
-        int argsSize = args.size();
-        Path destPath = Paths.get(args.get(argsSize - 1));
-        for (String src : args.subList(0, argsSize - 1)) {
-            Path srcPath = Paths.get(src);
-            if (Files.isDirectory(srcPath))
-                Files.walkFileTree(srcPath, new Jpg2DcmFileVisitor(srcPath, destPath));
-            else if (Files.isDirectory(destPath))
-                convert(srcPath, destPath.resolve(srcPath.getFileName() + ".dcm"));
-            else
-                convert(srcPath, destPath);
-        }
-    }
+//    protected void convert(List<String> args) throws Exception {
+//        int argsSize = args.size();
+//        Path destPath = Paths.get(args.get(argsSize - 1));
+//        for (String src : args.subList(0, argsSize - 1)) {
+//            Path srcPath = Paths.get(src);
+//            if (Files.isDirectory(srcPath))
+//                Files.walkFileTree(srcPath, new Jpg2DcmFileVisitor(srcPath, destPath));
+//            else if (Files.isDirectory(destPath))
+//                convert(srcPath, destPath.resolve(srcPath.getFileName() + ".dcm"));
+//            else
+//                convert(srcPath, destPath);
+//        }
+//    }
 
     class Jpg2DcmFileVisitor extends SimpleFileVisitor<Path> {
         protected Path srcPath;
