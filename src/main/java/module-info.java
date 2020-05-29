@@ -9,4 +9,5 @@ module in.co.dermatologist.dicoderma {
     requires dcm4che.tool.jpg2dcm;
     requires commons.cli;
     requires dcm4che.imageio;
+    requires com.fasterxml.jackson.dataformat.javaprop;
 }

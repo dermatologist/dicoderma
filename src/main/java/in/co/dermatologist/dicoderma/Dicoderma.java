@@ -17,12 +17,15 @@ import org.apache.commons.imaging.formats.tiff.write.TiffOutputDirectory;
 
 import com.google.gson.Gson;
 
-import org.dcm4che3.data.Attributes;
-import org.dcm4che3.tool.common.CLIUtils;
+//import org.dcm4che3.data.Attributes;
+//import org.dcm4che3.tool.common.CLIUtils;
+
+import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Properties;
 
 @Getter
 @Setter
@@ -34,6 +37,17 @@ public class Dicoderma {
     protected DicomSCModel model;
 
     protected Gson gson = new Gson();
+
+    public String getModelAsProperties(DicomSCModel model) throws IOException {
+        //https://stackoverflow.com/questions/54274134/how-to-convert-a-json-into-properties-file-in-java
+        JavaPropsMapper mapper = new JavaPropsMapper();
+
+        // https://stackoverflow.com/questions/1579113/java-properties-object-to-string
+        Properties props = mapper.writeValueAsProperties(model);
+        StringWriter writer = new StringWriter();
+        props.list(new PrintWriter(writer));
+        return writer.getBuffer().toString();
+    }
 
     public DicomSCModel getDicodermMetadataFromFile(final File file) throws ImageReadException,
             IOException {
