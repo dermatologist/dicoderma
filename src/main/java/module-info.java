@@ -7,4 +7,6 @@ module in.co.dermatologist.dicoderma {
     requires dcm4che.tool.common;
     requires dcm4che.core;
     requires dcm4che.tool.jpg2dcm;
+    requires commons.cli;
+    requires dcm4che.imageio;
 }
