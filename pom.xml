@@ -19,6 +19,7 @@
     <maven.compiler.target>13</maven.compiler.target>
     <dcm4che.version>5.22.0</dcm4che.version>
     <fasterxml.jackson.version>2.11.0</fasterxml.jackson.version>
+    <lombok.version>1.18.12</lombok.version>
   </properties>
 
   <dependencies>
@@ -31,7 +32,14 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.10</version>
+      <version>${lombok.version}</version>
+    </dependency>
+    <!-- Required for lombok -->
+    <!--https://medium.com/@Leejjon_net/youll-have-this-problems-when-you-add-lombok-to-a-modular-java-11-micro-service-832f55911bc5 -->
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>1.3.0.Final</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -71,7 +79,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
+      <version>5.6.2</version>
       <scope>test</scope>
     </dependency>
 

@@ -2,7 +2,6 @@ module in.co.dermatologist.dicoderma {
     requires lombok;
     requires java.desktop;
     requires org.apache.commons.imaging;
-    requires jackson.annotations;
     requires com.google.gson;
     requires dcm4che.tool.common;
     requires dcm4che.core;
@@ -10,4 +9,5 @@ module in.co.dermatologist.dicoderma {
     requires commons.cli;
     requires dcm4che.imageio;
     requires com.fasterxml.jackson.dataformat.javaprop;
+    requires com.fasterxml.jackson.annotation;
 }
