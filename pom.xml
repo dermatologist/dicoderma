@@ -68,6 +68,12 @@
       <groupId>org.dcm4che.tool</groupId>
       <artifactId>dcm4che-tool-jpg2dcm</artifactId>
       <version>${dcm4che.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.dcm4che.tool/dcm4che-tool-common -->
@@ -104,9 +110,16 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.1</version>
         </plugin>
-        <plugin>
+        <!-- <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>3.0.0-M4</version>
+        </plugin> -->
+                <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+                <useSystemClassLoader>false</useSystemClassLoader>
+            </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>

@@ -3,11 +3,13 @@ module in.co.dermatologist.dicoderma {
     requires java.desktop;
     requires org.apache.commons.imaging;
     requires com.google.gson;
-    requires dcm4che.tool.common;
-    requires dcm4che.core;
-    requires dcm4che.tool.jpg2dcm;
-    requires commons.cli;
-    requires dcm4che.imageio;
+    requires static dcm4che.tool.common;
+    requires static dcm4che.core;
+    requires static dcm4che.tool.jpg2dcm;
+    requires static commons.cli;
+    requires static dcm4che.imageio;
     requires com.fasterxml.jackson.dataformat.javaprop;
     requires com.fasterxml.jackson.annotation;
+
+    exports in.co.dermatologist.dicoderma;
 }
