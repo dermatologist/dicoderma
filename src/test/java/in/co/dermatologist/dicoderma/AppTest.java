@@ -1,20 +1,20 @@
-// package in.co.dermatologist.dicoderma;
+package in.co.dermatologist.dicoderma;
 
-// import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-// import org.junit.Test;
+class AppTest {
 
-// /**
-//  * Unit test for simple App.
-//  */
-// public class AppTest 
-// {
-//     /**
-//      * Rigorous Test :-)
-//      */
-//     @Test
-//     public void shouldAnswerWithTrue()
-//     {
-//         assertTrue( true );
-//     }
-// }
+    @BeforeEach
+    void setUp() {
+    }
+
+    @AfterEach
+    void tearDown() {
+    }
+
+    @Test
+    void main() {
+    }
+}
