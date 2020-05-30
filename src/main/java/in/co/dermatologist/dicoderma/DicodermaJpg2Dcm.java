@@ -22,14 +22,13 @@ import java.nio.file.Path;
 public class DicodermaJpg2Dcm extends Jpg2Dcm {
 //    org.dcm4che3.tool.jpg2dcm.Jpg2Dcm main = new Jpg2Dcm();
 
-    public void convertJpgToDcm(Path srcFilePath, Path destFilePath, String commaSeperatedDicodermaMetadata)
+    public void convertJpgToDcm(Path srcFilePath, Path destFilePath, String[] dicodermaMetadataAsArray)
             throws IOException, ParserConfigurationException, SAXException {
         //Jpg2Dcm main = new Jpg2Dcm();
         setNoAPPn(false);
         setPhoto(false);
         Attributes staticMetadata = new Attributes();
-        String[] dicodermaMetadataWithSlash = commaSeperatedDicodermaMetadata.split(",");
-        CLIUtils.addAttributes(staticMetadata, dicodermaMetadataWithSlash);
+        CLIUtils.addAttributes(staticMetadata, dicodermaMetadataAsArray);
         supplementMissingUIDs(staticMetadata);
         supplementMissingValue(staticMetadata, Tag.SeriesNumber, "999");
         supplementMissingValue(staticMetadata, Tag.InstanceNumber, "1");

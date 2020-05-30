@@ -19,6 +19,7 @@ public class DicodermaTest {
     public void setUp() {
         dicomSCModel = new DicomSCModel();
         dicoderma = new Dicoderma();
+        dicomSCModel.PatientName = "Mickey Mouse";
     }
 
     @AfterEach
@@ -27,9 +28,15 @@ public class DicodermaTest {
 
     @Test
     public void getModelAsProperties() throws IOException {
-        dicomSCModel.PatientName = "Mickey Mouse";
         String s = dicoderma.getModelAsProperties(dicomSCModel);
-        System.out.println(s);
+        System.out.print(s);
+    }
+
+    @Test
+    public void getModelAsStringArray() throws IOException {
+        //String[] s = dicoderma.getModelAsCommaSeparatedString(dicomSCModel);
+        for (String prop : dicoderma.getModelAsStringArray(dicomSCModel))
+            System.out.print(prop);
     }
 
     @Test
@@ -40,7 +47,7 @@ public class DicodermaTest {
         String absolutePath = file.getAbsolutePath();
         
         dicomSCModel = dicoderma.getDicodermMetadataFromFile(file);
-        System.out.println(dicoderma.getModelAsProperties(dicomSCModel));
+        System.out.print(dicoderma.getModelAsProperties(dicomSCModel));
         
         assertTrue(absolutePath.endsWith("src/test/resources/test.jpg"));
     }
@@ -51,6 +58,7 @@ public class DicodermaTest {
 
     @Test
     public void getDicodermaMetadataAsString() {
+        System.out.print(dicoderma.getDicodermaMetadataAsString(dicomSCModel));
     }
 
     @Test

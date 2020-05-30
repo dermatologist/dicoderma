@@ -26,6 +26,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Properties;
+import java.util.Arrays;
 
 @Getter
 @Setter
@@ -47,6 +48,22 @@ public class Dicoderma {
         StringWriter writer = new StringWriter();
         props.list(new PrintWriter(writer));
         return writer.getBuffer().toString();
+    }
+
+    public String[] getModelAsStringArray(DicomSCModel model) throws IOException {
+        String props = getModelAsProperties(model);
+        String[] filteredProps = new String[]{};
+        String[] _props = props.replaceAll("\n", ",").split(",");
+        for (String _prop : _props){
+            if(Character.isUpperCase(_prop.charAt(0)) && // Starts with Capital Letter
+                _prop.indexOf("=") > -1 && // Has =
+                !_prop.endsWith("=")){ // But does not end with =, ie blank property
+                    filteredProps = Arrays.copyOf(filteredProps, filteredProps.length + 1);
+                    filteredProps[filteredProps.length - 1] = _prop; 
+              
+            }
+        }
+        return filteredProps;
     }
 
     public DicomSCModel getDicodermMetadataFromFile(final File file) throws ImageReadException,
