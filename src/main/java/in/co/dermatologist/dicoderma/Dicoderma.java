@@ -136,7 +136,7 @@ public class Dicoderma {
         return outputSet;
     }
 
-    public void putDicormMetadataToFile(final File jpegImageFile, final File dst, String model)
+    public void putDicomMetadataToFile(final File jpegImageFile, final File dst, String model)
             throws IOException, ImageReadException, ImageWriteException {
         try (FileOutputStream fos = new FileOutputStream(dst);
              OutputStream os = new BufferedOutputStream(fos)) {

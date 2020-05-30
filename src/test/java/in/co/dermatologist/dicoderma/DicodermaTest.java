@@ -1,6 +1,7 @@
 package in.co.dermatologist.dicoderma;
 
 import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.ImageWriteException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,6 +73,11 @@ public class DicodermaTest {
     }
 
     @Test
-    public void putDicormMetadataToFile() {
+    public void putDicomMetadataToFile() throws IOException, ImageReadException, ImageWriteException, JsonProcessingException{
+        File filein = new File("src/test/resources/test.jpg");
+        File fileout = new File("src/test/resources/test-out.jpg");
+        fileout.delete();
+        dicoderma.putDicomMetadataToFile(filein, fileout, dicoderma.getDicodermaMetadataAsString(dicomSCModel));
+        assertTrue(fileout.exists());
     }
 }
