@@ -3,8 +3,6 @@ package in.co.dermatologist.dicoderma;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +24,9 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Properties;
 
+//import com.google.gson.Gson;
+//import com.google.gson.JsonSyntaxException;
+
 //import org.dcm4che3.data.Attributes;
 //import org.dcm4che3.tool.common.CLIUtils;
 
@@ -38,7 +39,8 @@ public class Dicoderma {
 
     protected DicomSCModel model;
 
-    protected Gson gson = new Gson();
+    //protected Gson gson = new Gson();
+    protected ObjectMapper objectMapper = new ObjectMapper();
 
     public String getModelAsProperties(DicomSCModel model) throws IOException {
         //https://stackoverflow.com/questions/54274134/how-to-convert-a-json-into-properties-file-in-java
@@ -76,7 +78,7 @@ public class Dicoderma {
 
     private DicomSCModel getModelFromMetadata(ImageMetadata metadata){
         model = new DicomSCModel();
-        gson = new Gson();
+        // gson = new Gson();
         //String jsonInString = gson.toJson(model);
         if (metadata instanceof JpegImageMetadata) {
             try {
@@ -85,24 +87,25 @@ public class Dicoderma {
                 String dicodermaMetadata = field.getValueDescription();
                 System.out.print(dicodermaMetadata);
                 // DicomSCModel model2 = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
-                DicomSCModel model2 = new ObjectMapper().readValue(dicodermaMetadata.replace("'",""), DicomSCModel.class);
+                DicomSCModel model2 = objectMapper.readValue(dicodermaMetadata.replace("'", ""), DicomSCModel.class);
                 System.out.print(model2.toString());
                 return model2;
                 //jsonInString = gson.toJson(readModel);
-            } catch (JsonSyntaxException | JsonProcessingException e) {
+            } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         }
         return model;
     }
+
     public DicomSCModel getDicodermaMetadata(BufferedImage bufferedImage) throws IOException, ImageReadException {
         byte[] imageBytes = bufferedImageToByteArray(bufferedImage);
         final ImageMetadata metadata = Imaging.getMetadata(imageBytes);
         return getModelFromMetadata(metadata);
     }
 
-    public String getDicodermaMetadataAsString(DicomSCModel dicomSCModel){
-        return gson.toJson(dicomSCModel);
+    public String getDicodermaMetadataAsString(DicomSCModel dicomSCModel) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(dicomSCModel);
     }
 
     public BufferedImage putDicodermaMetadata(BufferedImage bufferedImage, DicomSCModel dicomSCModel) throws ImageWriteException, ImageReadException, IOException {
