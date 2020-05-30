@@ -4,41 +4,50 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class DicodermaTest {
+import java.io.IOException;
+
+public class DicodermaTest {
+
+    DicomSCModel dicomSCModel;
+    Dicoderma dicoderma;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
+        dicomSCModel = new DicomSCModel();
+        dicoderma = new Dicoderma();
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
     }
 
     @Test
-    void getModelAsProperties() {
+    public void getModelAsProperties() throws IOException {
+        String s = dicoderma.getModelAsProperties(dicomSCModel);
+        System.out.println(s);
     }
 
     @Test
-    void getDicodermMetadataFromFile() {
+    public void getDicodermMetadataFromFile() {
     }
 
     @Test
-    void getDicodermaMetadata() {
+    public void getDicodermaMetadata() {
     }
 
     @Test
-    void getDicodermaMetadataAsString() {
+    public void getDicodermaMetadataAsString() {
     }
 
     @Test
-    void putDicodermaMetadata() {
+    public void putDicodermaMetadata() {
     }
 
     @Test
-    void putDicodermaMetadataAsString() {
+    public void putDicodermaMetadataAsString() {
     }
 
     @Test
-    void putDicormMetadataToFile() {
+    public void putDicormMetadataToFile() {
     }
 }
