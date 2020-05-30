@@ -85,7 +85,7 @@ public class Dicoderma {
                 String dicodermaMetadata = field.getValueDescription();
                 System.out.print(dicodermaMetadata);
                 // DicomSCModel model2 = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
-                DicomSCModel model2 = new ObjectMapper().readValue(dicodermaMetadata, DicomSCModel.class);
+                DicomSCModel model2 = new ObjectMapper().readValue(dicodermaMetadata.replace("'",""), DicomSCModel.class);
                 System.out.print(model2.toString());
                 return model2;
                 //jsonInString = gson.toJson(readModel);
