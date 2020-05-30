@@ -9,14 +9,14 @@ import lombok.Data;
  */
 @Data
 public class DicomSCModel {
-    private String PatientName; // "Simson^Homer"
-    private GenderEnum PatientSex; // "M" OR "F"
-    private String PatientID;
-    private String IssuerOfPatientID;
-    private String TypeOfPatientID; // "RFID"
+    public String PatientName; // "Simson^Homer"
+    public GenderEnum PatientSex; // "M" OR "F"
+    public String PatientID;
+    public String IssuerOfPatientID;
+    public String TypeOfPatientID; // "RFID"
 
-    private String StudyDate; // "20110404" OR "20110404-20110405"
-    private String StudyTime; // "15" OR "15-20"
-    private Object StudyDescription;
+    public String StudyDate; // "20110404" OR "20110404-20110405"
+    public String StudyTime; // "15" OR "15-20"
+    public Object StudyDescription;
 
 }
