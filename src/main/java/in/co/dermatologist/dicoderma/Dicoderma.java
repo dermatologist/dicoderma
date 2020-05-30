@@ -1,5 +1,7 @@
 package in.co.dermatologist.dicoderma;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -82,11 +84,12 @@ public class Dicoderma {
                 final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(ExifTagConstants.EXIF_TAG_USER_COMMENT);
                 String dicodermaMetadata = field.getValueDescription();
                 System.out.print(dicodermaMetadata);
-                DicomSCModel model2 = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
+                // DicomSCModel model2 = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
+                DicomSCModel model2 = new ObjectMapper().readValue(dicodermaMetadata, DicomSCModel.class);
                 System.out.print(model2.toString());
                 return model2;
                 //jsonInString = gson.toJson(readModel);
-            } catch (JsonSyntaxException e) {
+            } catch (JsonSyntaxException | JsonProcessingException e) {
                 e.printStackTrace();
             }
         }

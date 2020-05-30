@@ -10,6 +10,7 @@ module in.co.dermatologist.dicoderma {
     requires static dcm4che.imageio;
     requires com.fasterxml.jackson.dataformat.javaprop;
     requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.databind;
 
     exports in.co.dermatologist.dicoderma;
 }
