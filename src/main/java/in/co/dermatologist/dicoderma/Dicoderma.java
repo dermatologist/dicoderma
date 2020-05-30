@@ -58,7 +58,7 @@ public class Dicoderma {
                 _prop.indexOf("=") > -1 && // Has =
                 !_prop.endsWith("=")){ // But does not end with =, ie blank property
                     filteredProps = Arrays.copyOf(filteredProps, filteredProps.length + 1);
-                    filteredProps[filteredProps.length - 1] = _prop; 
+                    filteredProps[filteredProps.length - 1] = _prop.replaceAll(" ", "^"); 
               
             }
         }
@@ -79,9 +79,7 @@ public class Dicoderma {
                 final JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
                 final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(ExifTagConstants.EXIF_TAG_USER_COMMENT);
                 String dicodermaMetadata = field.getValueDescription();
-                System.out.print(dicodermaMetadata);
                 DicomSCModel model2 = objectMapper.readValue(dicodermaMetadata.replace("'", ""), DicomSCModel.class);
-                System.out.print(model2.toString());
                 return model2;
             } catch (JsonProcessingException e) {
                 e.printStackTrace();

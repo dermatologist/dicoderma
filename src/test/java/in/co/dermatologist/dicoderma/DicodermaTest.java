@@ -40,7 +40,7 @@ public class DicodermaTest {
         // //String[] s = dicoderma.getModelAsCommaSeparatedString(dicomSCModel);
         // for (String prop : dicoderma.getModelAsStringArray(dicomSCModel))
         //     System.out.print(prop);
-        assertTrue(Arrays.asList(dicoderma.getModelAsStringArray(dicomSCModel)).contains("PatientName=Mickey Mouse"));
+        assertTrue(Arrays.asList(dicoderma.getModelAsStringArray(dicomSCModel)).contains("PatientName=Mickey^Mouse"));
     }
 
     @Test

@@ -32,9 +32,9 @@ public class DicodermaJpg2DcmTest {
         File filein = new File("src/test/resources/test-out.jpg");
         File fileout = new File("src/test/resources/test.dcm");
         String[] metadata = dicoderma.getModelAsStringArray(dicomSCModel);
-        for(String m : metadata){
-            System.out.println(m);
-        }
-        //dicodermaJpg2Dcm.convertJpgToDcm(filein, fileout, metadata);
+        // for(String m : metadata){
+        //     System.out.println(m);
+        // }
+        dicodermaJpg2Dcm.convertJpgToDcm(filein, fileout, metadata);
     }
 }

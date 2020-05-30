@@ -3,6 +3,7 @@
 .vscode
 .factorypath
 *.jpg
+*.dcm
 
 # Git folder #
 /.git/
