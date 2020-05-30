@@ -1,6 +1,7 @@
 package in.co.dermatologist.dicoderma;
 
 import org.apache.commons.imaging.ImageReadException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,7 @@ public class DicodermaTest {
     }
 
     @Test
-    public void getDicodermaMetadataAsString() {
+    public void getDicodermaMetadataAsString() throws JsonProcessingException{
         //System.out.print(dicoderma.getDicodermaMetadataAsString(dicomSCModel));
         assertTrue(dicoderma.getDicodermaMetadataAsString(dicomSCModel).indexOf("Mickey") > -1);
     }
