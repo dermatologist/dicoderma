@@ -20,6 +20,7 @@ import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import java.net.URL;
 public class DicodermaJpg2Dcm extends Jpg2Dcm {
 //    org.dcm4che3.tool.jpg2dcm.Jpg2Dcm main = new Jpg2Dcm();
 
@@ -61,4 +62,70 @@ public class DicodermaJpg2Dcm extends Jpg2Dcm {
         }
 //        System.out.println(MessageFormat.format(rb.getString("converted"), srcFilePath, destFilePath));
     }
+
+    @Override
+    protected enum ContentType {
+        IMAGE_JPEG {
+            @Override
+            String getSampleMetadataFile(boolean photo) {
+                ClassLoader classLoader = getClass().getClassLoader();
+                URL resource = classLoader.getResource("secondaryCaptureImageMetadata.xml");
+                return resource.getFile();
+            }
+
+            @Override
+            String getSOPClassUID(boolean photo) {
+                return photo
+                        ? UID.VLPhotographicImageStorage
+                        : UID.SecondaryCaptureImageStorage;
+            }
+
+            @Override
+            XPEGParser newParser(SeekableByteChannel channel) throws IOException {
+                return new JPEGParser(channel);
+            }
+        },
+        VIDEO_MPEG {
+            @Override
+            XPEGParser newParser(SeekableByteChannel channel) throws IOException {
+                return new MPEG2Parser(channel);
+            }
+        },
+        VIDEO_MP4 {
+            @Override
+            XPEGParser newParser(SeekableByteChannel channel) throws IOException {
+                return new MP4Parser(channel);
+            }
+        };
+
+        static ContentType probe(Path path) throws IOException {
+            String type = Files.probeContentType(path);
+            if (type == null)
+                throw new IllegalArgumentException(
+                        MessageFormat.format(rb.getString("unsupported-file-ext"), path));
+            switch (type.toLowerCase()) {
+                case "image/jpeg":
+                case "image/jp2":
+                    return ContentType.IMAGE_JPEG;
+                case "video/mpeg":
+                    return ContentType.VIDEO_MPEG;
+                case "video/mp4":
+                case "video/quicktime":
+                    return ContentType.VIDEO_MP4;
+            }
+            throw new IllegalArgumentException(
+                    MessageFormat.format(rb.getString("unsupported-content-type"), type, path));
+        }
+
+        String getSampleMetadataFile(boolean photo) {
+            return "resource:vlPhotographicImageMetadata.xml";
+        }
+
+        String getSOPClassUID(boolean photo) {
+            return UID.VideoPhotographicImageStorage;
+        }
+
+        abstract XPEGParser newParser(SeekableByteChannel channel) throws IOException;
+    }
+
 }

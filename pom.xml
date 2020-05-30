@@ -64,12 +64,6 @@
       <groupId>org.dcm4che.tool</groupId>
       <artifactId>dcm4che-tool-jpg2dcm</artifactId>
       <version>${dcm4che.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>log4j</groupId>
-          <artifactId>log4j</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.dcm4che.tool/dcm4che-tool-common -->

@@ -29,9 +29,12 @@ public class DicodermaJpg2DcmTest {
 
     @Test
     public void convertJpgToDcm() throws IOException, ParserConfigurationException, SAXException {
-        File filein = new File("src/test/resources/test.jpg");
+        File filein = new File("src/test/resources/test-out.jpg");
         File fileout = new File("src/test/resources/test.dcm");
         String[] metadata = dicoderma.getModelAsStringArray(dicomSCModel);
-        dicodermaJpg2Dcm.convertJpgToDcm(filein, fileout, metadata);
+        for(String m : metadata){
+            System.out.println(m);
+        }
+        //dicodermaJpg2Dcm.convertJpgToDcm(filein, fileout, metadata);
     }
 }
