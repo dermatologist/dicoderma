@@ -24,9 +24,6 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Properties;
 
-//import com.google.gson.Gson;
-//import com.google.gson.JsonSyntaxException;
-
 //import org.dcm4che3.data.Attributes;
 //import org.dcm4che3.tool.common.CLIUtils;
 
@@ -39,7 +36,6 @@ public class Dicoderma {
 
     protected DicomSCModel model;
 
-    //protected Gson gson = new Gson();
     protected ObjectMapper objectMapper = new ObjectMapper();
 
     public String getModelAsProperties(DicomSCModel model) throws IOException {
@@ -78,19 +74,15 @@ public class Dicoderma {
 
     private DicomSCModel getModelFromMetadata(ImageMetadata metadata){
         model = new DicomSCModel();
-        // gson = new Gson();
-        //String jsonInString = gson.toJson(model);
         if (metadata instanceof JpegImageMetadata) {
             try {
                 final JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
                 final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(ExifTagConstants.EXIF_TAG_USER_COMMENT);
                 String dicodermaMetadata = field.getValueDescription();
                 System.out.print(dicodermaMetadata);
-                // DicomSCModel model2 = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
                 DicomSCModel model2 = objectMapper.readValue(dicodermaMetadata.replace("'", ""), DicomSCModel.class);
                 System.out.print(model2.toString());
                 return model2;
-                //jsonInString = gson.toJson(readModel);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
