@@ -45,7 +45,7 @@ public class DicodermaTest {
 
     @Test
     public void getDicodermaMetadataFromFile() throws IOException, ImageReadException{
-        String testImage = "src/test/resources/test-out.jpg";
+        String testImage = "src/test/resources/test.jpg";
  
         File file = new File(testImage);
         String absolutePath = file.getAbsolutePath();
