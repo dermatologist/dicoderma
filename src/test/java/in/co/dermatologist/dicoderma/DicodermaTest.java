@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.*;
+import java.util.Arrays;
 
 import java.io.IOException;
 
@@ -29,14 +30,15 @@ public class DicodermaTest {
     @Test
     public void getModelAsProperties() throws IOException {
         String s = dicoderma.getModelAsProperties(dicomSCModel);
-        System.out.print(s);
+        assertTrue(s.indexOf("=") > -1);
     }
 
     @Test
     public void getModelAsStringArray() throws IOException {
-        //String[] s = dicoderma.getModelAsCommaSeparatedString(dicomSCModel);
-        for (String prop : dicoderma.getModelAsStringArray(dicomSCModel))
-            System.out.print(prop);
+        // //String[] s = dicoderma.getModelAsCommaSeparatedString(dicomSCModel);
+        // for (String prop : dicoderma.getModelAsStringArray(dicomSCModel))
+        //     System.out.print(prop);
+        assertTrue(Arrays.asList(dicoderma.getModelAsStringArray(dicomSCModel)).contains("PatientName=Mickey Mouse"));
     }
 
     @Test
@@ -47,9 +49,7 @@ public class DicodermaTest {
         String absolutePath = file.getAbsolutePath();
         
         dicomSCModel = dicoderma.getDicodermMetadataFromFile(file);
-        System.out.print(dicoderma.getModelAsProperties(dicomSCModel));
-        
-        assertTrue(absolutePath.endsWith("src/test/resources/test.jpg"));
+        assertTrue(dicoderma.getModelAsProperties(dicomSCModel).indexOf("=") > -1);
     }
 
     @Test
@@ -58,7 +58,8 @@ public class DicodermaTest {
 
     @Test
     public void getDicodermaMetadataAsString() {
-        System.out.print(dicoderma.getDicodermaMetadataAsString(dicomSCModel));
+        //System.out.print(dicoderma.getDicodermaMetadataAsString(dicomSCModel));
+        assertTrue(dicoderma.getDicodermaMetadataAsString(dicomSCModel).indexOf("Mickey") > -1);
     }
 
     @Test
