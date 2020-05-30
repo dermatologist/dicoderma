@@ -11,7 +11,6 @@ import org.dcm4che3.io.SAXReader;
 import org.dcm4che3.tool.common.CLIUtils;
 import org.dcm4che3.util.StreamUtils;
 
-import org.dcm4che3.util.UIDUtils;
 import org.dcm4che3.data.UID;
 import org.dcm4che3.imageio.codec.jpeg.*;
 

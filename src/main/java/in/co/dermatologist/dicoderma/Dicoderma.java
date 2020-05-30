@@ -24,6 +24,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Properties;
 
+import java.util.Date;
 //import org.dcm4che3.data.Attributes;
 //import org.dcm4che3.tool.common.CLIUtils;
 
@@ -65,11 +66,15 @@ public class Dicoderma {
         return filteredProps;
     }
 
-    public DicomSCModel getDicodermaMetadataFromFile(final File file) throws ImageReadException,
-            IOException {
+    public DicomSCModel getDicodermaMetadataFromFile(final File file) {
         // get all metadata stored in EXIF format (ie. from JPEG or TIFF).
-        final ImageMetadata metadata = Imaging.getMetadata(file);
-        return getModelFromMetadata(metadata);
+        try {
+            final ImageMetadata metadata = Imaging.getMetadata(file);
+            return getModelFromMetadata(metadata);
+        } catch(NullPointerException | IOException | ImageReadException e) {
+            return new DicomSCModel(); 
+        }
+        // return new DicomSCModel(); 
     }
 
     private DicomSCModel getModelFromMetadata(ImageMetadata metadata){
@@ -82,12 +87,14 @@ public class Dicoderma {
                 DicomSCModel model2 = objectMapper.readValue(dicodermaMetadata.replace("'", ""), DicomSCModel.class);
                 return model2;
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                return new DicomSCModel();
             }
         }
+        model.StudyDate = new Date().toString();
         return model;
     }
 
+    // BufferedImage may not be accessible due to missing requires transitive -> java.desktop
     public DicomSCModel getDicodermaMetadata(BufferedImage bufferedImage) throws IOException, ImageReadException {
         byte[] imageBytes = bufferedImageToByteArray(bufferedImage);
         final ImageMetadata metadata = Imaging.getMetadata(imageBytes);
@@ -132,6 +139,11 @@ public class Dicoderma {
             exifDirectory.add(ExifTagConstants.EXIF_TAG_USER_COMMENT, model);
         }
         return outputSet;
+    }
+
+    public void putDicomModelToFile(final File jpegImageFile, final File dst, DicomSCModel dicomSCModel)
+            throws ImageReadException, ImageWriteException, JsonProcessingException, IOException {
+        putDicomMetadataToFile(jpegImageFile, dst,  getDicodermaMetadataAsString(dicomSCModel));
     }
 
     public void putDicomMetadataToFile(final File jpegImageFile, final File dst, String model)

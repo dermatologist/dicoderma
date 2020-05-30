@@ -48,7 +48,7 @@ public class DicodermaTest {
         String testImage = "src/test/resources/test.jpg";
  
         File file = new File(testImage);
-        String absolutePath = file.getAbsolutePath();
+        //String absolutePath = file.getAbsolutePath();
         
         dicomSCModel = dicoderma.getDicodermaMetadataFromFile(file);
         assertTrue(dicoderma.getModelAsProperties(dicomSCModel).indexOf("=") > -1);
@@ -73,11 +73,11 @@ public class DicodermaTest {
     }
 
     @Test
-    public void putDicomMetadataToFile() throws IOException, ImageReadException, ImageWriteException, JsonProcessingException{
+    public void putDicomModelToFile() throws IOException, ImageReadException, ImageWriteException, JsonProcessingException{
         File filein = new File("src/test/resources/test.jpg");
         File fileout = new File("src/test/resources/test-out.jpg");
         fileout.delete();
-        dicoderma.putDicomMetadataToFile(filein, fileout, dicoderma.getDicodermaMetadataAsString(dicomSCModel));
+        dicoderma.putDicomModelToFile(filein, fileout, dicomSCModel);
         assertTrue(fileout.exists());
     }
 }
