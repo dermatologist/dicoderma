@@ -61,12 +61,15 @@ public class Dicoderma {
         gson = new Gson();
         //String jsonInString = gson.toJson(model);
         if (metadata instanceof JpegImageMetadata) {
-            final JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
-            final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(ExifTagConstants.EXIF_TAG_USER_COMMENT);
-            String dicodermaMetadata = field.getValueDescription();
-            DicomSCModel readModel = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
-            //jsonInString = gson.toJson(readModel);
-            return readModel;
+            try{
+                final JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
+                final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(ExifTagConstants.EXIF_TAG_USER_COMMENT);
+                String dicodermaMetadata = field.getValueDescription();
+                model = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
+                //jsonInString = gson.toJson(readModel);
+            }finally{
+                return model;
+            }
         }
         return model;
     }

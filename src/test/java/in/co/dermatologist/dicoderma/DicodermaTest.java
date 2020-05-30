@@ -1,8 +1,12 @@
 package in.co.dermatologist.dicoderma;
 
+import org.apache.commons.imaging.ImageReadException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.io.*;
 
 import java.io.IOException;
 
@@ -29,7 +33,16 @@ public class DicodermaTest {
     }
 
     @Test
-    public void getDicodermMetadataFromFile() {
+    public void getDicodermMetadataFromFile() throws IOException, ImageReadException{
+        String testImage = "src/test/resources/test.jpg";
+ 
+        File file = new File(testImage);
+        String absolutePath = file.getAbsolutePath();
+        
+        dicomSCModel = dicoderma.getDicodermMetadataFromFile(file);
+        System.out.println(dicoderma.getModelAsProperties(dicomSCModel));
+        
+        assertTrue(absolutePath.endsWith("src/test/resources/test.jpg"));
     }
 
     @Test
