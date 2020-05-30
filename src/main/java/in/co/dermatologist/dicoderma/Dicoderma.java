@@ -1,5 +1,8 @@
 package in.co.dermatologist.dicoderma;
 
+import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,21 +15,17 @@ import org.apache.commons.imaging.formats.jpeg.exif.ExifRewriter;
 import org.apache.commons.imaging.formats.tiff.TiffField;
 import org.apache.commons.imaging.formats.tiff.TiffImageMetadata;
 import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
-import org.apache.commons.imaging.formats.tiff.write.TiffOutputSet;
 import org.apache.commons.imaging.formats.tiff.write.TiffOutputDirectory;
-
-import com.google.gson.Gson;
-
-//import org.dcm4che3.data.Attributes;
-//import org.dcm4che3.tool.common.CLIUtils;
-
-import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
+import org.apache.commons.imaging.formats.tiff.write.TiffOutputSet;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Properties;
 import java.util.Arrays;
+import java.util.Properties;
+
+//import org.dcm4che3.data.Attributes;
+//import org.dcm4che3.tool.common.CLIUtils;
 
 @Getter
 @Setter
@@ -78,14 +77,17 @@ public class Dicoderma {
         gson = new Gson();
         //String jsonInString = gson.toJson(model);
         if (metadata instanceof JpegImageMetadata) {
-            try{
+            try {
                 final JpegImageMetadata jpegMetadata = (JpegImageMetadata) metadata;
                 final TiffField field = jpegMetadata.findEXIFValueWithExactMatch(ExifTagConstants.EXIF_TAG_USER_COMMENT);
                 String dicodermaMetadata = field.getValueDescription();
-                model = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
+                System.out.print(dicodermaMetadata);
+                DicomSCModel model2 = gson.fromJson(dicodermaMetadata, DicomSCModel.class);
+                System.out.print(model2.toString());
+                return model2;
                 //jsonInString = gson.toJson(readModel);
-            }finally{
-                return model;
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
             }
         }
         return model;
