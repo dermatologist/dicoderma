@@ -23,6 +23,7 @@ public class DicodermaTest {
 
     @Test
     public void getModelAsProperties() throws IOException {
+        dicomSCModel.PatientName = "Mickey Mouse";
         String s = dicoderma.getModelAsProperties(dicomSCModel);
         System.out.println(s);
     }
