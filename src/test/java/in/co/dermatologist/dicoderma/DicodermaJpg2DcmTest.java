@@ -9,6 +9,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class DicodermaJpg2DcmTest {
 
     DicomSCModel dicomSCModel;
@@ -32,9 +34,8 @@ public class DicodermaJpg2DcmTest {
         File filein = new File("src/test/resources/test-out.jpg");
         File fileout = new File("src/test/resources/test.dcm");
         String[] metadata = dicoderma.getModelAsStringArray(dicomSCModel);
-        // for(String m : metadata){
-        //     System.out.println(m);
-        // }
+        fileout.delete();
         dicodermaJpg2Dcm.convertJpgToDcm(filein, fileout, metadata);
+        assertTrue(fileout.exists());
     }
 }
