@@ -1,7 +1,10 @@
 #@beapen
 .idea
 .vscode
-
+.factorypath
+*.jpg
+*.dcm
+!test.jpg
 
 # Git folder #
 /.git/
