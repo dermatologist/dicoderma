@@ -14,6 +14,7 @@ import org.dcm4che3.util.StreamUtils;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
@@ -22,9 +23,11 @@ import java.nio.file.Path;
 public class DicodermaJpg2Dcm extends Jpg2Dcm {
 //    org.dcm4che3.tool.jpg2dcm.Jpg2Dcm main = new Jpg2Dcm();
 
-    public void convertJpgToDcm(Path srcFilePath, Path destFilePath, String[] dicodermaMetadataAsArray)
+    public void convertJpgToDcm(File srcFile, File destFile, String[] dicodermaMetadataAsArray)
             throws IOException, ParserConfigurationException, SAXException {
-        //Jpg2Dcm main = new Jpg2Dcm();
+
+        Path srcFilePath = srcFile.toPath();
+        Path destFilePath = destFile.toPath();
         setNoAPPn(false);
         setPhoto(false);
         Attributes staticMetadata = new Attributes();
