@@ -42,13 +42,13 @@ public class DicodermaTest {
     }
 
     @Test
-    public void getDicodermMetadataFromFile() throws IOException, ImageReadException{
+    public void getDicodermaMetadataFromFile() throws IOException, ImageReadException{
         String testImage = "src/test/resources/test.jpg";
  
         File file = new File(testImage);
         String absolutePath = file.getAbsolutePath();
         
-        dicomSCModel = dicoderma.getDicodermMetadataFromFile(file);
+        dicomSCModel = dicoderma.getDicodermaMetadataFromFile(file);
         assertTrue(dicoderma.getModelAsProperties(dicomSCModel).indexOf("=") > -1);
     }
 

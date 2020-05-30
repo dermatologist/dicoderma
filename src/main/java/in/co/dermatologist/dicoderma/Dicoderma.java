@@ -66,7 +66,7 @@ public class Dicoderma {
         return filteredProps;
     }
 
-    public DicomSCModel getDicodermMetadataFromFile(final File file) throws ImageReadException,
+    public DicomSCModel getDicodermaMetadataFromFile(final File file) throws ImageReadException,
             IOException {
         // get all metadata stored in EXIF format (ie. from JPEG or TIFF).
         final ImageMetadata metadata = Imaging.getMetadata(file);
