@@ -50,6 +50,14 @@ public class Dicoderma {
         return writer.getBuffer().toString();
     }
 
+    /**
+     * @author beapen
+     * 
+     * Converts model to an array of strings Example: PatientName=Mickey^Mouse
+     * @param model
+     * @return model as String[] array
+     * @throws IOException
+     */
     public String[] getModelAsStringArray(DicomSCModel model) throws IOException {
         String props = getModelAsProperties(model);
         String[] filteredProps = new String[]{};
@@ -66,6 +74,13 @@ public class Dicoderma {
         return filteredProps;
     }
 
+    /**
+     * @author beapen
+     * 
+     * Extracts DICOM SC metadata from file
+     * @param file
+     * @return Dicom metadata as model
+     */
     public DicomSCModel getDicodermaMetadataFromFile(final File file) {
         // get all metadata stored in EXIF format (ie. from JPEG or TIFF).
         try {
