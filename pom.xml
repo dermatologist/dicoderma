@@ -6,7 +6,7 @@
 
   <groupId>in.co.dermatologist</groupId>
   <artifactId>dicoderma</artifactId>
-  <version>1.0.0</version>
+  <version>1.8.0</version>
 
   <name>dicoderma</name>
   <!-- FIXME change it to the project's website -->
@@ -15,8 +15,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- @STEP 1: Change to 13 -->
-    <maven.compiler.source>13</maven.compiler.source>
-    <maven.compiler.target>13</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <dcm4che.version>5.22.0</dcm4che.version>
     <fasterxml.jackson.version>2.11.0</fasterxml.jackson.version>
     <lombok.version>1.18.12</lombok.version>
