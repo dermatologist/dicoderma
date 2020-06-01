@@ -45,7 +45,7 @@ public class DicodermaJpg2Dcm extends Jpg2Dcm {
         // ContentType fileType = ContentType.probe(srcFilePath);
 
         //@TODO: Check for Image Type
-        ContentType fileType = ContentType.IMAGE_JPEG;
+        //ContentType fileType = ContentType.IMAGE_JPEG;
 
         ClassLoader classLoader = getClass().getClassLoader();
         URL resource = classLoader.getResource("secondaryCaptureImageMetadata.xml");

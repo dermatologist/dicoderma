@@ -39,7 +39,7 @@ public class Dicoderma {
 
     protected ObjectMapper objectMapper = new ObjectMapper();
 
-    public String getModelAsProperties(DicomSCModel model) throws IOException {
+    protected String getModelAsProperties(DicomSCModel model) throws IOException {
         //https://stackoverflow.com/questions/54274134/how-to-convert-a-json-into-properties-file-in-java
         JavaPropsMapper mapper = new JavaPropsMapper();
 
@@ -50,6 +50,14 @@ public class Dicoderma {
         return writer.getBuffer().toString();
     }
 
+    /**
+     * @author beapen
+     * 
+     * Converts model to an array of strings Example: PatientName=Mickey^Mouse
+     * @param model
+     * @return model as String[] array
+     * @throws IOException
+     */
     public String[] getModelAsStringArray(DicomSCModel model) throws IOException {
         String props = getModelAsProperties(model);
         String[] filteredProps = new String[]{};
@@ -66,6 +74,13 @@ public class Dicoderma {
         return filteredProps;
     }
 
+    /**
+     * @author beapen
+     * 
+     * Extracts DICOM SC metadata from file
+     * @param file
+     * @return Dicom metadata as model
+     */
     public DicomSCModel getDicodermaMetadataFromFile(final File file) {
         // get all metadata stored in EXIF format (ie. from JPEG or TIFF).
         try {
@@ -105,17 +120,17 @@ public class Dicoderma {
         return objectMapper.writeValueAsString(dicomSCModel);
     }
 
-    public BufferedImage putDicodermaMetadata(BufferedImage bufferedImage, DicomSCModel dicomSCModel) throws ImageWriteException, ImageReadException, IOException {
+    private BufferedImage putDicodermaMetadata(BufferedImage bufferedImage, DicomSCModel dicomSCModel) throws ImageWriteException, ImageReadException, IOException {
         return putDicodermaMetadataAsString(bufferedImage, getDicodermaMetadataAsString(dicomSCModel));
     }
 
-    public BufferedImage putDicodermaMetadataAsString(BufferedImage bufferedImage, String model) throws IOException, ImageReadException, ImageWriteException {
+    private BufferedImage putDicodermaMetadataAsString(BufferedImage bufferedImage, String model) throws IOException, ImageReadException, ImageWriteException {
         byte[] imageBytes = bufferedImageToByteArray(bufferedImage);
         final ImageMetadata metadata = Imaging.getMetadata(imageBytes);
         TiffOutputSet outputSet = getOutputSetFromMetadataAndModel(metadata, model);
         // https://stackoverflow.com/questions/10642864/bufferedinputstream-into-byte-to-be-send-over-a-socket-to-a-database
         ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-        byte[] bytes = bytesOut.toByteArray();
+        //byte[] bytes = bytesOut.toByteArray();
         BufferedOutputStream os = new BufferedOutputStream(bytesOut);
         new ExifRewriter().updateExifMetadataLossless(imageBytes, os, outputSet);
         byte[] imageAsBytes = bytesOut.toByteArray();
@@ -146,7 +161,7 @@ public class Dicoderma {
         putDicomMetadataToFile(jpegImageFile, dst,  getDicodermaMetadataAsString(dicomSCModel));
     }
 
-    public void putDicomMetadataToFile(final File jpegImageFile, final File dst, String model)
+    private void putDicomMetadataToFile(final File jpegImageFile, final File dst, String model)
             throws IOException, ImageReadException, ImageWriteException {
         try (FileOutputStream fos = new FileOutputStream(dst);
              OutputStream os = new BufferedOutputStream(fos)) {

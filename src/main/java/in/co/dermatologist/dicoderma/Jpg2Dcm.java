@@ -49,7 +49,6 @@ package in.co.dermatologist.dicoderma;
 * change package name
 
  */
-import org.apache.commons.cli.*;
 import org.dcm4che3.data.*;
 import org.dcm4che3.imageio.codec.XPEGParser;
 import org.dcm4che3.imageio.codec.jpeg.JPEG;
@@ -58,7 +57,6 @@ import org.dcm4che3.imageio.codec.mp4.MP4Parser;
 import org.dcm4che3.imageio.codec.mpeg.MPEG2Parser;
 import org.dcm4che3.io.DicomOutputStream;
 import org.dcm4che3.io.SAXReader;
-import org.dcm4che3.tool.common.CLIUtils;
 import org.dcm4che3.util.StreamUtils;
 import org.dcm4che3.util.UIDUtils;
 import org.xml.sax.SAXException;
@@ -71,7 +69,6 @@ import java.nio.channels.SeekableByteChannel;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
