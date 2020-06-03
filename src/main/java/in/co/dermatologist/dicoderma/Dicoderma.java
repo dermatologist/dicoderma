@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 //import org.dcm4che3.data.Attributes;
 //import org.dcm4che3.tool.common.CLIUtils;
 
@@ -65,13 +67,21 @@ public class Dicoderma {
         for (String _prop : _props){
             if(Character.isUpperCase(_prop.charAt(0)) && // Starts with Capital Letter
                 _prop.indexOf("=") > -1 && // Has =
-                !_prop.endsWith("=")){ // But does not end with =, ie blank property
+                !_prop.trim().endsWith("null") && // is not null
+                !_prop.trim().endsWith("=")){ // But does not end with =, ie blank property
                     filteredProps = Arrays.copyOf(filteredProps, filteredProps.length + 1);
                     filteredProps[filteredProps.length - 1] = _prop.replaceAll(" ", "^"); 
               
             }
         }
-        return filteredProps;
+        // dcm4che expects an array of properties and values NOT property=value
+        List<String> list = new ArrayList<>();
+        for (String s : filteredProps) {
+            String[] parts = s.split("=", -2);
+            for(String ss: parts)
+                list.add(ss);
+        }
+        return list.toArray(new String[0]); // flattened array of properties and values
     }
 
     /**
