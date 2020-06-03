@@ -12,6 +12,7 @@ public class DicomSCModel {
     public String PatientName; // "Simson^Homer"
     public GenderEnum PatientSex; // "M" OR "F"
     public String PatientID;
+    public String PatientBirthDate;
     public String IssuerOfPatientID;
     public String TypeOfPatientID; // "RFID"
 
