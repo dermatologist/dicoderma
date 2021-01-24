@@ -44,10 +44,6 @@ Dermatology never really embraced DICOM for image management. Dicoderma is an at
 
 ### See [dit4ij - the dermatology image tagger for ImageJ/Fiji](https://github.com/dermatologist/dit4ij)
 
-## Citation
-
-* Work in progress on the manuscript.
-* Please cite this repository for now, if you use this.
 
 ## Author
 
